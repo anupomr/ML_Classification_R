@@ -19,3 +19,15 @@ test_set = subset(dataset, split == FALSE)
 training_set[-3] = scale(training_set[-3])
 test_set[-3] =scale(test_set[-3])
 
+# Fitting decision tree to the training set
+install.packages('rapart')
+library(rpart)
+classifier = rpart(formula = Purchased ~ .,
+                   data = training_set)
+
+# Predicting the test set result
+y_pred = predict(classifier, newdata = test_set[-3], type = 'class')
+
+
+# Making the confution Matrix
+cm = table(test_set[, 3], y_pred)
